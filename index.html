@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mines Prediction Tool</title>
+
+<style>
+body{
+font-family: Arial, sans-serif;
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(45deg,#0f2027,#203a43,#2c5364);
+background-size:400% 400%;
+animation:bgMove 15s infinite;
+color:white;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.container{
+text-align:center;
+backdrop-filter:blur(15px);
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,255,255,0.3);
+width:90%;
+max-width:500px;
+}
+
+h1{
+margin-bottom:10px;
+}
+
+select,input{
+padding:10px;
+border-radius:10px;
+border:none;
+margin:5px;
+width:80%;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(5,60px);
+gap:10px;
+justify-content:center;
+margin:20px 0;
+}
+
+.tile{
+width:60px;
+height:60px;
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+box-shadow:0 0 10px rgba(255,255,255,0.2);
+transition:0.3s;
+}
+
+.safe{
+background:#00ff99;
+box-shadow:0 0 20px #00ff99;
+animation:pop 0.4s;
+}
+
+.mine{
+background:#ff3b3b;
+box-shadow:0 0 20px #ff3b3b;
+animation:pop 0.4s;
+}
+
+@keyframes pop{
+0%{transform:scale(0.5);opacity:0;}
+100%{transform:scale(1);opacity:1;}
+}
+
+button{
+padding:10px 20px;
+margin:5px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+.predict{
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+color:white;
+}
+
+.reset{
+background:linear-gradient(45deg,#ff7e5f,#feb47b);
+color:white;
+}
+
+.telegram{
+background:linear-gradient(45deg,#0088cc,#00bfff);
+color:white;
+}
+
+.youtube{
+background:linear-gradient(45deg,#ff0000,#ff4d4d);
+color:white;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+footer{
+margin-top:10px;
+font-size:12px;
+opacity:0.7;
+}
+
+.toggle{
+position:absolute;
+top:10px;
+right:10px;
+}
+
+.dark{
+background:black;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="platformTitle">Stake Predictor</h1>
+
+<select id="platform">
+<option>Stake</option>
+<option>1win</option>
+<option>Tashan Win</option>
+<option>Bet365</option>
+</select>
+
+<br>
+
+<input type="text" id="seed" placeholder="Enter Your Seeds">
+
+<div class="grid" id="grid"></div>
+
+<button class="predict" onclick="predict()">Predict Safe Mines</button>
+<button class="reset" onclick="resetGrid()">Reset Game</button>
+
+<br><br>
+
+<button class="telegram">Join Telegram</button>
+<button class="youtube">Join YouTube</button>
+
+<footer>Created by Fun Education</footer>
+
+</div>
+
+<script>
+
+const grid = document.getElementById("grid");
+
+for(let i=0;i<25;i++){
+let tile=document.createElement("div");
+tile.classList.add("tile");
+grid.appendChild(tile);
+}
+
+const platform = document.getElementById("platform");
+const title = document.getElementById("platformTitle");
+
+platform.onchange=function(){
+title.innerText = platform.value + " Predictor";
+}
+
+function predict(){
+
+let tiles=document.querySelectorAll(".tile");
+
+tiles.forEach(t=>{
+t.classList.remove("safe","mine");
+});
+
+let indexes=[...Array(25).keys()];
+
+indexes.sort(()=>Math.random()-0.5);
+
+let safe=indexes.slice(0,5);
+
+tiles.forEach((tile,i)=>{
+if(safe.includes(i)){
+tile.classList.add("safe");
+}else{
+tile.classList.add("mine");
+}
+});
+
+}
+
+function resetGrid(){
+let tiles=document.querySelectorAll(".tile");
+tiles.forEach(t=>{
+t.classList.remove("safe","mine");
+});
+}
+
+</script>
+
+</body>
+</html>
